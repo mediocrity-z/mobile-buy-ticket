@@ -17,7 +17,7 @@ const Account = memo(function Account(props) {
                 <div className="money">{length * price}</div>
                 <div className="amount">支付金额</div>
             </div>
-            <div className="button">提交按钮</div>
+            <div className="button">提交</div>
             <div
                 className={classnames('layer', { hidden: !expanded })}
                 onClick={() => setExpanded(false)}
