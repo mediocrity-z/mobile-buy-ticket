@@ -319,6 +319,11 @@ export function showTicketTypeMenu(id) {
                             )
                         );
                     } else {
+                        if (passengers.length === 1) {
+                            alert('请至少正确添加一个同行成人')
+                            return
+                        }
+
                         const adult = passengers.find(
                             passenger =>
                                 passenger.id === id &&
