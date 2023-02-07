@@ -7,8 +7,6 @@ import './Candidate.css';
 
 const Channel = memo(function Channel(props) {
     const { name, desc, type, priceMsg } = props;
-    
-    window.console.log(priceMsg)
 
     const {
         trainNumber,
@@ -23,9 +21,10 @@ const Channel = memo(function Channel(props) {
             .setSearch('dStation', departStation)
             .setSearch('aStation', arriveStation)
             .setSearch('type', type)
+            .setSearch('priceMsg', priceMsg)
             .setSearch('date', dayjs(departDate).format('YYYY-MM-DD'))
             .toString();
-    }, [type, trainNumber, departStation, arriveStation, departDate]);
+    }, [type, priceMsg, trainNumber, departStation, arriveStation, departDate]);
 
     return (
         <div className="channel">

@@ -2,9 +2,13 @@ import React, { memo, useState } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import './Account.css';
+import URI from 'urijs';
 
 const Account = memo(function Account(props) {
-    const { price = 0, length } = props;
+    const { length } = props;
+
+    const queries = URI.parseQuery(window.location.search);
+    const {priceMsg} = queries
 
     const [expanded, setExpanded] = useState(false);
 
@@ -14,7 +18,7 @@ const Account = memo(function Account(props) {
                 className={classnames('price', { expanded })}
                 onClick={() => setExpanded(!expanded)}
             >
-                <div className="money">{length * price}</div>
+                <div className="money">{length * priceMsg}</div>
                 <div className="amount">支付金额</div>
             </div>
             <div className="button">提交</div>
@@ -27,7 +31,7 @@ const Account = memo(function Account(props) {
                 <ul>
                     <li>
                         <span>火车票</span>
-                        <span>￥{price}</span>
+                        <span>￥{priceMsg}</span>
                         <span>&#xD7;{length}</span>
                     </li>
                 </ul>
