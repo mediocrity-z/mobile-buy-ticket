@@ -27,7 +27,7 @@ const ListItem = memo(function ListItem(props) {
             .setSearch('trainNumber', trainNumber)
             .setSearch('date', date)
             .toString();
-    }, [aStation, dStation, trainNumber, date]);
+    }, [aStation, dStation, trainNumber, trainType, date]);
 
     return (
         <li className="list-item">
