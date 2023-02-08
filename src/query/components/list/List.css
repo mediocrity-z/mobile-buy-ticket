@@ -40,17 +40,22 @@
 
 .item-stations {
     float: left;
-    width: 33%;
+    width: 23%;
 }
 
 .item-train {
     float: left;
-    width: 21%;
+    width: 19%;
+}
+
+.item-train-type {
+    float: left;
+    width: 19%;
 }
 
 .item-ticket {
     float: left;
-    width: 28%;
+    width: 16%;
     text-align: right;
     color: #f90;
 }

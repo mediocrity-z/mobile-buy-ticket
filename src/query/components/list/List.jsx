@@ -14,12 +14,16 @@ const ListItem = memo(function ListItem(props) {
         time,
         priceMsg,
         dayAfter,
+        trainType,
+        trainStatusDes,
+        trainShowDesc,
     } = props;
 
     const url = useMemo(() => {
         return new URI('ticket.html')
             .setSearch('aStation', aStation)
             .setSearch('dStation', dStation)
+            .setSearch('trainType', trainType)
             .setSearch('trainNumber', trainNumber)
             .setSearch('date', date)
             .toString();
@@ -51,10 +55,15 @@ const ListItem = memo(function ListItem(props) {
                     <br />
                     <em className="em-light">{time}</em>
                 </span>
+                <span className="item-train-type">
+                    <em>{trainType}</em>
+                    <br />
+                    <em className="em-light">{trainStatusDes}</em>
+                </span>
                 <span className="item-ticket">
                     <em>{priceMsg}</em>
                     <br />
-                    <em className="em-light-orange">可抢票</em>
+                    <em className="em-light-orange">{trainShowDesc!==undefined ? trainShowDesc : '可抢票'}</em>
                 </span>
             </a>
         </li>
@@ -71,10 +80,15 @@ ListItem.propTypes = {
     time: PropTypes.string.isRequired,
     priceMsg: PropTypes.string.isRequired,
     dayAfter: PropTypes.string.isRequired,
+    trainType: PropTypes.string.isRequired,
+    trainStatusDes: PropTypes.string.isRequired,
+    trainShowDesc: PropTypes.string,
 };
 
 const List = memo(function List(props) {
     const { list } = props;
+
+    window.console.log(list);
 
     return (
         <ul className="list">
