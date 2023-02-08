@@ -78,7 +78,8 @@
       "react/jsx-indent": [
         "error",
         4
-      ]
+      ],
+      "no-debugger":"off"
     }
   },
   "husky": {

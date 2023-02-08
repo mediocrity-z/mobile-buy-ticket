@@ -2,6 +2,8 @@ import { ORDER_DURATION, ORDER_DEPART } from '../constant';
 
 import { h0 } from '../../common/fp';
 
+import { durationSort } from '../../utils/index'
+
 export const ACTION_SET_FROM = 'SET_FROM';
 export const ACTION_SET_TO = 'SET_TO';
 export const ACTION_SET_DEPART_DATE = 'SET_DEPART_DATE';
@@ -64,12 +66,17 @@ export function setTrainList(trainList) {
 }
 export function toggleOrderType() {
     return (dispatch, getState) => {
-        const { orderType } = getState();
+        const { orderType, trainList } = getState();
+        const newTrainList = [...trainList].sort((a, b) => durationSort(a.time, b.time))
         if (orderType === ORDER_DEPART) {
+            // 多个dispatch是同步执行的
             dispatch({
                 type: ACTION_SET_ORDER_TYPE,
                 payload: ORDER_DURATION,
             });
+            setTimeout(() => {
+                dispatch(setTrainList(newTrainList))
+            }, 200);
         } else {
             dispatch({
                 type: ACTION_SET_ORDER_TYPE,

@@ -23,6 +23,8 @@ import {
 } from './actions';
 import { ORDER_DEPART } from '../constant';
 
+
+
 export default {
     from(state = null, action) {
         const { type, payload } = action;
