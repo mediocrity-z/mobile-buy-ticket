@@ -1,5 +1,11 @@
 import durationSort from './durationSort'
 
-export { durationSort }
+import debounce from './debounce'
 
-export default { durationSort }
+import throttle from './throttle'
+
+import filterSearch from './filterSearch'
+
+export { durationSort, debounce, throttle, filterSearch }
+
+export default { durationSort, debounce, throttle, filterSearch }

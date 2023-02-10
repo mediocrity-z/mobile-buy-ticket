@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, useMemo, memo } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import './CitySelector.css';
+import { debounce, filterSearch } from '../../utils';
 
 const CityItem = memo(function CityItem(props) {
     const { name, onSelect } = props;
@@ -118,24 +119,25 @@ SuggestItem.propTypes = {
 };
 
 const Suggest = memo(function Suggest(props) {
-    const { searchKey, onSelect } = props;
+    const { searchKey, onSelect, cityData } = props;
 
     const [result, setResult] = useState([]);
 
-    useEffect(() => {
-        fetch('/rest/search?key=' + encodeURIComponent(searchKey))
-            .then(res => res.json())
-            .then(data => {
-                const { result, searchKey: sKey } = data;
+    const hasChinese = useMemo(()=>{
+        return /[\u4E00-\u9FA5\uF900-\uFA2D]{1,}/.test(searchKey)
+    }, [searchKey])
 
-                if (sKey === searchKey) {
-                    setResult(result);
-                }
-            });
-    }, [searchKey]);
+    useEffect(() => {
+        debounce(() => {
+            const list = cityData.cityList
+            const filterList = filterSearch(list, searchKey)
+            window.console.log(filterList)
+            setResult([...filterList])
+        }, 300)
+    }, [hasChinese]);
 
     const fallBackResult = useMemo(() => {
-        if (!result.length) {
+        if (!result.length && hasChinese) {
             return [
                 {
                     display: searchKey,
@@ -144,7 +146,7 @@ const Suggest = memo(function Suggest(props) {
         }
 
         return result;
-    }, [result, searchKey]);
+    }, [result]);
 
     return (
         <div className="city-suggest">
@@ -166,6 +168,7 @@ const Suggest = memo(function Suggest(props) {
 Suggest.propTypes = {
     searchKey: PropTypes.string.isRequired,
     onSelect: PropTypes.func.isRequired,
+    cityData: PropTypes.object.isRequired,
 };
 
 const CitySelector = memo(function CitySelector(props) {
@@ -212,10 +215,20 @@ const CitySelector = memo(function CitySelector(props) {
         return <div>error</div>;
     };
 
+    const handleQuit = () => {
+        onBack()
+        setSearchKey('')
+    }
+
+    const handleSelect = (key) => {
+        onSelect(key)
+        setSearchKey('')
+    }
+
     return (
         <div className={classnames('city-selector', { hidden: !show })}>
             <div className="city-search">
-                <div className="search-back" onClick={() => onBack()}>
+                <div className="search-back" onClick={handleQuit}>
                     <svg width="42" height="42">
                         <polyline
                             points="25,13 16,21 25,29"
@@ -244,7 +257,7 @@ const CitySelector = memo(function CitySelector(props) {
                 </i>
             </div>
             {Boolean(key) && (
-                <Suggest searchKey={key} onSelect={key => onSelect(key)} />
+                <Suggest cityData={cityData} searchKey={key} onSelect={handleSelect} />
             )}
             {outputCitySections()}
         </div>
