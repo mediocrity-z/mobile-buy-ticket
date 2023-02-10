@@ -130,7 +130,10 @@ function App(props) {
                     },
                 } = result;
 
-                dispatch(setTrainList(trains));
+                // 初始化或按照时间早晚排序时，才会调用此方法的接口，持续时间长短由前端排序
+                if(orderType !== 2) {
+                    dispatch(setTrainList(trains));
+                }
                 dispatch(setTicketTypes(ticketType));
                 dispatch(setTrainTypes(trainType));
                 dispatch(setDepartStations(depStation));

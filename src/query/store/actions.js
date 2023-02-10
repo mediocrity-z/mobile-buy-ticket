@@ -70,13 +70,15 @@ export function toggleOrderType() {
         const newTrainList = [...trainList].sort((a, b) => durationSort(a.time, b.time))
         if (orderType === ORDER_DEPART) {
             // 多个dispatch是同步执行的
+
+            // 因为不调接口所以响应比较快，让它慢一点
+            setTimeout(() => {
+                dispatch(setTrainList(newTrainList))
+            }, 300);
             dispatch({
                 type: ACTION_SET_ORDER_TYPE,
                 payload: ORDER_DURATION,
             });
-            setTimeout(() => {
-                dispatch(setTrainList(newTrainList))
-            }, 200);
         } else {
             dispatch({
                 type: ACTION_SET_ORDER_TYPE,
