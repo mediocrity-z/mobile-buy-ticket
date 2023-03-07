@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useMemo, useState } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import './Account.css';
@@ -12,6 +12,13 @@ const Account = memo(function Account(props) {
 
     const [expanded, setExpanded] = useState(false);
 
+    const url = useMemo(() => {
+        if (priceMsg === 0) {
+            return alert('请氪金')
+        }
+        return new URI('submit.html').toString()
+    }, [])
+
     return (
         <div className="account">
             <div
@@ -21,7 +28,7 @@ const Account = memo(function Account(props) {
                 <div className="money">{length * priceMsg}</div>
                 <div className="amount">支付金额</div>
             </div>
-            <div className="button">提交</div>
+            <a href={url} className="button">提交</a>
             <div
                 className={classnames('layer', { hidden: !expanded })}
                 onClick={() => setExpanded(false)}

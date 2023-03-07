@@ -154,6 +154,11 @@ module.exports = function(webpackEnv) {
                 isEnvDevelopment &&
                     require.resolve('react-dev-utils/webpackHotDevClient'),
             ].filter(Boolean),
+            submit: [
+                paths.appSubmitJs,
+                isEnvDevelopment &&
+                    require.resolve('react-dev-utils/webpackHotDevClient'),
+            ].filter(Boolean),
         },
         output: {
             // The build folder.
@@ -600,6 +605,33 @@ module.exports = function(webpackEnv) {
                         template: paths.appOrderHtml,
                         filename: 'order.html',
                         chunks: ['order'],
+                    },
+                    isEnvProduction
+                        ? {
+                              minify: {
+                                  removeComments: true,
+                                  collapseWhitespace: true,
+                                  removeRedundantAttributes: true,
+                                  useShortDoctype: true,
+                                  removeEmptyAttributes: true,
+                                  removeStyleLinkTypeAttributes: true,
+                                  keepClosingSlash: true,
+                                  minifyJS: true,
+                                  minifyCSS: true,
+                                  minifyURLs: true,
+                              },
+                          }
+                        : undefined
+                )
+            ),
+            new HtmlWebpackPlugin(
+                Object.assign(
+                    {},
+                    {
+                        inject: true,
+                        template: paths.appSubmitHtml,
+                        filename: 'submit.html',
+                        chunks: ['submit'],
                     },
                     isEnvProduction
                         ? {
